@@ -1,3 +1,6 @@
+# Custom files
+bundle.php
+
 # Logs
 logs
 *.log

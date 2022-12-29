@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#Validate input:
+if [ -z "$1" ]; then
+  echo "Github user not provided" && exit 1
+fi
+
+if [ -z "$2" ]; then
+  echo "Github project not provided" && exit 1
+fi
+
+#Get token:
+if [ -z "$CHANGELOG_GITHUB_TOKEN" ]; then
+  if [ ! -z "$3" ]; then
+    source "$3" || echo "Unable to fetch credentials, the file either does not exist, or is not an actual file." && exit 1
+  else
+    echo 'Unable to find your github credentials file, please double chek the file exists and has the $CHANGELOG_GITHUB_TOKEN variable set.' && exit 1
+  fi
+else
+  echo 'Unable to find your github credentials token, please make sure your $CHANGELOG_GITHUB_TOKEN variable is set, or pass a path to a credentials file.' && exit 1
+fi
+
+#Check for output option:
+$CLOUT = "./changelog.md"
+
+#Generate changelog:
+github_changelog_generator -u "$1" -p "$2" --output "$CLOUT"
