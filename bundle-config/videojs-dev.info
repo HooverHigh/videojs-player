@@ -1,0 +1,2 @@
+// requirejs ../js/videojs-bundle.min.js
+// requirejs ../player-init-plugin-v2.js
