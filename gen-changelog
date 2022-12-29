@@ -11,17 +11,21 @@ fi
 
 #Get token:
 if [ -z "$CHANGELOG_GITHUB_TOKEN" ]; then
-  if [ ! -z "$3" ]; then
-    source "$3" || echo "Unable to fetch credentials, the file either does not exist, or is not an actual file." && exit 1
-  else
-    echo 'Unable to find your github credentials file, please double chek the file exists and has the $CHANGELOG_GITHUB_TOKEN variable set.' && exit 1
-  fi
-else
   echo 'Unable to find your github credentials token, please make sure your $CHANGELOG_GITHUB_TOKEN variable is set, or pass a path to a credentials file.' && exit 1
+else
+  if [ ! -z "$3" ]; then
+    if [ ! -f "$3" ]; then
+      echo "Unable to fetch credentials, the file either does not exist, or is not an actual file." && exit 1
+    else
+      source "$3"
+    fi
+  else
+    echo 'Unable to find your github credentials file, please double check the file exists and has the $CHANGELOG_GITHUB_TOKEN variable set.' && exit 1
+  fi
 fi
 
 #Check for output option:
-$CLOUT = "./changelog.md"
+CLOUT="CHANGELOG.md"
 
 #Generate changelog:
 github_changelog_generator -u "$1" -p "$2" --output "$CLOUT"
